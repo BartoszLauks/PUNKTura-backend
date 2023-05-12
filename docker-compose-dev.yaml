@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  PUNKTura-backend-mysql:
+    container_name: PUNKTura-backend-mysql-dev
+    ports:
+      - '33063:3306'
+
+  PUNKTura-backend-php:
+    container_name: PUNKTura-backend-php-dev
+    environment:
+      APP_ENV: dev
+      APP_VERSION: dev
+      DATABASE_URL: mysql://root:@PUNKTura-backend-mysql:3306/PUNKTura-backend_dev
+
+  PUNKTura-backend-nginx:
+    container_name: PUNKTura-backend-nginx-dev
+    ports:
+      - '8083:80'

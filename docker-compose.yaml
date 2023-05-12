@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  PUNKTura-backend-mysql:
+    image: mysql:5.7
+    command: --sql_mode=""
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    volumes:
+      - PUNKTura-backend_db_data:/var/lib/mysql
+
+  PUNKTura-backend-php:
+    build: docker/php-fpm
+    working_dir: /app
+#    environment:
+#      JWT_PASSPHRASE: 1234
+    volumes:
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
+      - .:/app:cached
+    depends_on:
+      - PUNKTura-backend-mysql
+
+  PUNKTura-backend-nginx:
+    image: nginx:latest
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/app:cached
+    depends_on:
+      - PUNKTura-backend-php
+
+volumes:
+  PUNKTura-backend_db_data:
