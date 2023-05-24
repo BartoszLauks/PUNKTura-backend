@@ -4,30 +4,30 @@ install:
 	sh ./install.sh
 
 migrate:
-	docker-compose exec -T PUNKTura-backend-php php bin/console doctrine:migrations:diff --no-interaction
-	docker-compose exec -T PUNKTura-backend-php php bin/console doctrine:migrations:migrate --no-interaction
+	docker-compose exec -T punktura-backend-php php bin/console doctrine:migrations:diff --no-interaction
+	docker-compose exec -T punktura-backend-php php bin/console doctrine:migrations:migrate --no-interaction
 
 diff_migrations:
-	docker-compose exec -T PUNKTura-backend-php php bin/console doctrine:migrations:diff --no-interaction
+	docker-compose exec -T punktura-backend-php php bin/console doctrine:migrations:diff --no-interaction
 
 migrations:
-	docker-compose exec -T PUNKTura-backend-php php bin/console doctrine:migrations:migrate --no-interaction
+	docker-compose exec -T punktura-backend-php php bin/console doctrine:migrations:migrate --no-interaction
 
 composer_install:
-	COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T PUNKTura-backend-php composer self-update
-	COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T PUNKTura-backend-php composer install --no-interaction --classmap-authoritative --optimize-autoloader
+	COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T punktura-backend-php composer self-update
+	COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T punktura-backend-php composer install --no-interaction --classmap-authoritative --optimize-autoloader
 
 composer_update:
-	COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T PUNKTura-backend-php composer self-update
-	COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T PUNKTura-backend-php composer update --no-interaction --classmap-authoritative --optimize-autoloader
+	COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T punktura-backend-php composer self-update
+	COMPOSER_ALLOW_SUPERUSER=1 docker-compose exec -T punktura-backend-php composer update --no-interaction --classmap-authoritative --optimize-autoloader
 
 build_dev_local:
 	docker-compose -f docker-compose.yaml -f docker-compose-dev.local.yaml build
 
 start_dev_local:
 ifeq ($(OS),Darwin)
-	docker volume create --name=PUNKTura-backend-api-vendor-sync
-	docker volume create --name=PUNKTura-backend-api-app-sync
+	docker volume create --name=punktura-backend-api-vendor-sync
+	docker volume create --name=punktura-backend-api-app-sync
 	docker-compose -f docker-compose.yaml -f docker-compose-dev.local.yaml up -d --remove-orphans
 	docker-sync start
 else
@@ -69,7 +69,7 @@ stop:
 	docker-compose down
 
 execphp:
-	docker-compose exec PUNKTura-backend-php bash
+	docker-compose exec punktura-backend-php bash
 
 execdb:
-	docker-compose exec PUNKTura-backend-mysql bash
+	docker-compose exec punktura-backend-mysql bash

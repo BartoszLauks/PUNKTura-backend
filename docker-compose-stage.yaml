@@ -1,19 +1,19 @@
 version: '3.7'
 
 services:
-  PUNKTura-backend-mysql:
-    container_name: PUNKTura-backend-mysql-stage
+  punktura-backend-mysql:
+    container_name: punktura-backend-mysql-stage
     ports:
       - '33062:3306'
 
-  PUNKTura-backend-php:
-    container_name: PUNKTura-backend-php-stage
+  punktura-backend-php:
+    container_name: punktura-backend-php-stage
     environment:
       APP_ENV: prod
       APP_VERSION: prod
-      DATABASE_URL: mysql://root:@PUNKTura-backend-mysql:3306/PUNKTura-backend_stage
+      DATABASE_URL: mysql://root:@punktura-backend-mysql:3306/punktura-backend_stage
 
-  PUNKTura-backend-nginx:
-    container_name: PUNKTura-backend-nginx-stage
+  punktura-backend-nginx:
+    container_name: punktura-backend-nginx-stage
     ports:
       - '8082:80'

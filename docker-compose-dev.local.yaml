@@ -1,32 +1,32 @@
 version: '3.7'
 
 services:
-  PUNKTura-backend-mysql:
-    container_name: PUNKTura-backend-mysql-dev-local
+  punktura-backend-mysql:
+    container_name: punktura-backend-mysql-dev-local
     ports:
       - '33060:3306'
-  PUNKTura-backend-php:
-    container_name: PUNKTura-backend-php-dev-local
+  punktura-backend-php:
+    container_name: punktura-backend-php-dev-local
     ports:
       - '2222:22'
     volumes:
-      - PUNKTura-backend-api-vendor-sync:/app/vendor
-      - PUNKTura-backend-api-app-sync:/app
+      - punktura-backend-api-vendor-sync:/app/vendor
+      - punktura-backend-api-app-sync:/app
     environment:
       APP_ENV: dev
       APP_VERSION: dev
-      DATABASE_URL: mysql://root:@PUNKTura-backend-mysql:3306/PUNKTura-backend
+      DATABASE_URL: mysql://root:@punktura-backend-mysql:3306/punktura-backend
 
-  PUNKTura-backend-nginx:
-    container_name: PUNKTura-backend-nginx-dev-local
+  punktura-backend-nginx:
+    container_name: punktura-backend-nginx-dev-local
     ports:
       - '9090:80'
     volumes:
-      - PUNKTura-backend-api-vendor-sync:/app/vendor
-      - PUNKTura-backend-api-app-sync:/app
+      - punktura-backend-api-vendor-sync:/app/vendor
+      - punktura-backend-api-app-sync:/app
 
 volumes:
-  PUNKTura-backend-api-vendor-sync:
+  punktura-backend-api-vendor-sync:
     external: true
-  PUNKTura-backend-api-app-sync:
+  punktura-backend-api-app-sync:
     external: true
