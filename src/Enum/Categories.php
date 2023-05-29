@@ -2,6 +2,8 @@
 
 namespace App\Enum;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class Categories
 {
     const COMPUTER_SCIENCE = 'COMPUTER_SCIENCE';
@@ -902,6 +904,7 @@ class Categories
             self::AI => "http://www.wikicfp.com/cfp/call?conference=applied science",
             self::LIFE_SCIENCES => "http://www.wikicfp.com/cfp/call?conference=AI",
             self::IT => "http://www.wikicfp.com/cfp/call?conference=life sciences",
+            default => throw new \HttpException("Match error", Response::HTTP_BAD_REQUEST)
         };
     }
 }

@@ -17,8 +17,11 @@ class CfpEvents
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $UpdatedAt = null;
+
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $fullname = null;
+    private ?string $fullName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $handle = null;
@@ -30,16 +33,16 @@ class CfpEvents
     private ?string $location = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $begindate = null;
+    private ?string $beginDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $finishdate = null;
+    private ?string $finishDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $submitdate = null;
+    private ?string $submitDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $notifydate = null;
+    private ?string $notifyDate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $weblink = null;
@@ -47,8 +50,18 @@ class CfpEvents
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $info = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $UpdatedAt = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $cfpLink = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $beginDateFormat = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $submitDateFormat = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $finishDateFormat = null;
+
 
     public function getId(): ?int
     {
@@ -67,14 +80,26 @@ class CfpEvents
         return $this;
     }
 
-    public function getFullname(): ?string
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->fullname;
+        return $this->UpdatedAt;
     }
 
-    public function setFullname(?string $fullname): self
+    public function setUpdatedAt(\DateTimeImmutable $UpdatedAt): self
     {
-        $this->fullname = $fullname;
+        $this->UpdatedAt = $UpdatedAt;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(?string $fullName): self
+    {
+        $this->fullName = $fullName;
 
         return $this;
     }
@@ -115,50 +140,50 @@ class CfpEvents
         return $this;
     }
 
-    public function getBegindate(): ?string
+    public function getBeginDate(): ?string
     {
-        return $this->begindate;
+        return $this->beginDate;
     }
 
-    public function setBegindate(?string $begindate): self
+    public function setBeginDate(?string $beginDate): self
     {
-        $this->begindate = $begindate;
+        $this->beginDate = $beginDate;
 
         return $this;
     }
 
-    public function getFinishdate(): ?string
+    public function getFinishDate(): ?string
     {
-        return $this->finishdate;
+        return $this->finishDate;
     }
 
-    public function setFinishdate(?string $finishdate): self
+    public function setFinishDate(?string $finishDate): self
     {
-        $this->finishdate = $finishdate;
+        $this->finishDate = $finishDate;
 
         return $this;
     }
 
-    public function getSubmitdate(): ?string
+    public function getSubmitDate(): ?string
     {
-        return $this->submitdate;
+        return $this->submitDate;
     }
 
-    public function setSubmitdate(?string $submitdate): self
+    public function setSubmitDate(?string $submitDate): self
     {
-        $this->submitdate = $submitdate;
+        $this->submitDate = $submitDate;
 
         return $this;
     }
 
-    public function getNotifydate(): ?string
+    public function getNotifyDate(): ?string
     {
-        return $this->notifydate;
+        return $this->notifyDate;
     }
 
-    public function setNotifydate(?string $notifydate): self
+    public function setNotifyDate(?string $notifyDate): self
     {
-        $this->notifydate = $notifydate;
+        $this->notifyDate = $notifyDate;
 
         return $this;
     }
@@ -187,15 +212,52 @@ class CfpEvents
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getCfpLink(): ?string
     {
-        return $this->UpdatedAt;
+        return $this->cfpLink;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $UpdatedAt): self
+    public function setCfpLink(?string $cfpLink): self
     {
-        $this->UpdatedAt = $UpdatedAt;
+        $this->cfpLink = $cfpLink;
+
+        return $this;
+    }
+
+    public function getBeginDateFormat(): ?\DateTimeImmutable
+    {
+        return $this->beginDateFormat;
+    }
+
+    public function setBeginDateFormat(?\DateTimeImmutable $beginDateFormat): self
+    {
+        $this->beginDateFormat = $beginDateFormat;
+
+        return $this;
+    }
+
+    public function getSubmitDateFormat(): ?\DateTimeImmutable
+    {
+        return $this->submitDateFormat;
+    }
+
+    public function setSubmitDateFormat(?\DateTimeImmutable $submitDateFormat): self
+    {
+        $this->submitDateFormat = $submitDateFormat;
+
+        return $this;
+    }
+
+    public function getFinishDateFormat(): ?\DateTimeImmutable
+    {
+        return $this->finishDateFormat;
+    }
+
+    public function setFinishDateFormat(?\DateTimeImmutable $finishDateFormat): self
+    {
+        $this->finishDateFormat = $finishDateFormat;
 
         return $this;
     }
 }
+
