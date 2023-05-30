@@ -7,6 +7,7 @@ use App\Enum\Categories;
 use App\Repository\CfpEventsRepository;
 use DateTime;
 use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
@@ -20,8 +21,9 @@ class HomeController extends AbstractController
      const PAGE = '&page=';
 
     public function __construct(
-        private Categories $categories,
-        private CfpEventsRepository $cfpEventsRepository
+        private readonly Categories          $categories,
+        private readonly CfpEventsRepository $cfpEventsRepository,
+        private EntityManagerInterface       $entityManager
     ) {
     }
 
@@ -115,14 +117,12 @@ class HomeController extends AbstractController
     #[Route('/test', name: 'app_test')]
     public function test() : JsonResponse
     {
-        $data = [];
         $client = HttpClient::create();
         $categories = Categories::availableValue();
 
         foreach ($categories as $category) {
             $link = $this->categories->getURL($category);
             for ($i = 1; $i <= 2; $i++) {
-                //if ($i >= 2)  dd(array_chunk($data, 6));
                 $response = $client->request('GET', $link.self::PAGE.$i);
                 self::simulateHumanDivision();
                 $htmlContent = $response->getContent();
@@ -145,19 +145,38 @@ class HomeController extends AbstractController
             if (count($data) % 6 != 0) throw new HttpException("The data is not compatible", Response::HTTP_BAD_REQUEST);
             $conferences = array_chunk($data, 6);
             foreach ($conferences as $conference) {
+                if (!$this->cfpEventsRepository->findOneBy(['handle' => $conference[1], 'fullName' => $conference[2]])) {
+                    continue;
+                }
                 $cfpEvents = new CfpEvents();
                 $cfpEvents->setCfpLink($conference[0]);
                 $cfpEvents->setHandle($conference[1]);
                 $cfpEvents->setFullName($conference[2]);
-                //$cfpEvents->setSubmitDate();
                 $cfpEvents->setLocation($conference[4]);
                 $cfpEvents->setSubmitDate($conference[5]);
                 $cfpEvents->setSubmitDateFormat(DateTimeImmutable::createFromFormat("M d, Y", $conference[5]));
-                dd(DateTime::createFromFormat("M d, Y", $conference[5]));
+                if ($conference[1]) {
+                    $matches = [];
+                    preg_match($conference[1], '/(\d{4})/', $matches);
+                    if (empty($matches)) {
+                        $cfpEvents->setYear($matches[0]);
+                    }
+                }
+
+                if ($conference[3]) {
+                    $matches = [];
+                    preg_match_all($conference[3], '/(\w{3} \d{1,2}, \d{4})/', $matches);
+                    if (empty($matches[0])) {
+                        $cfpEvents->setBeginDate($matches[0][0]);
+                        $cfpEvents->setBeginDateFormat(DateTimeImmutable::createFromFormat("M d, Y", $matches[0][0]));
+                        $cfpEvents->setFinishDate($matches[0][1]);
+                        $cfpEvents->setFinishDateFormat(DateTimeImmutable::createFromFormat("M d, Y", $matches[0][1]));
+                    }
+                }
+                $this->cfpEventsRepository->save($cfpEvents, false);
             }
+            $this->entityManager->flush();
 
-
-            dd("dupa");
         }
 
         return $this->json('test');

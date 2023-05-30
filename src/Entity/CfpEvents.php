@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CfpEventsRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class CfpEvents
 {
     #[ORM\Id]
@@ -258,6 +259,18 @@ class CfpEvents
         $this->finishDateFormat = $finishDateFormat;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updatedTimestamp(): void
+    {
+        $this->setUpdatedAt(new \DateTimeImmutable('now'));
+        if ($this->getCreatedAt() === null) {
+            $this->setCreatedAt(new \DateTimeImmutable('now'));
+        }
     }
 }
 
