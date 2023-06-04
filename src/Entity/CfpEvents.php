@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CfpEventsRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -57,10 +58,10 @@ class CfpEvents
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $beginDateFormat = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[ORM\Column( nullable: true)]
     private ?\DateTimeImmutable $submitDateFormat = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[ORM\Column( nullable: true)]
     private ?\DateTimeImmutable $finishDateFormat = null;
 
 
@@ -237,12 +238,12 @@ class CfpEvents
         return $this;
     }
 
-    public function getSubmitDateFormat(): ?\DateTimeImmutable
+    public function getSubmitDateFormat(): ?DateTimeImmutable
     {
         return $this->submitDateFormat;
     }
 
-    public function setSubmitDateFormat(?\DateTimeImmutable $submitDateFormat): self
+    public function setSubmitDateFormat(?DateTimeImmutable $submitDateFormat): self
     {
         $this->submitDateFormat = $submitDateFormat;
 
@@ -261,10 +262,8 @@ class CfpEvents
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
+    #[ORM\PrePersist()]
+    #[ORM\PreUpdate()]
     public function updatedTimestamp(): void
     {
         $this->setUpdatedAt(new \DateTimeImmutable('now'));

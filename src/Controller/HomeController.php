@@ -122,7 +122,7 @@ class HomeController extends AbstractController
 
         foreach ($categories as $category) {
             $link = $this->categories->getURL($category);
-            for ($i = 1; $i <= 2; $i++) {
+            for ($i = 1; $i <= 20; $i++) {
                 $response = $client->request('GET', $link.self::PAGE.$i);
                 self::simulateHumanDivision();
                 $htmlContent = $response->getContent();

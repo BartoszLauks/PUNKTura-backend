@@ -17,7 +17,7 @@ final class Version20230530200229 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE cfp_events ADD cfp_link LONGTEXT DEFAULT NULL, ADD begin_date_format DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', ADD submit_date_format DATE DEFAULT NULL COMMENT \'(DC2Type:date_immutable)\', ADD finish_date_format DATE DEFAULT NULL COMMENT \'(DC2Type:date_immutable)\'');
+        $this->addSql('ALTER TABLE cfp_events ADD cfp_link LONGTEXT DEFAULT NULL, ADD begin_date_format DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', ADD submit_date_format DATETIME DEFAULT NULL COMMENT \'(DC2Type:date_immutable)\', ADD finish_date_format DATETIME DEFAULT NULL COMMENT \'(DC2Type:date_immutable)\'');
     }
 
     public function down(Schema $schema): void

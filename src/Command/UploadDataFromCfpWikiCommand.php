@@ -7,7 +7,6 @@ use App\Enum\Categories;
 use App\ProgressBar\ProgressBar;
 use App\Repository\CfpEventsRepository;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,7 +27,6 @@ class UploadDataFromCfpWikiCommand extends Command
     public function __construct(
         private readonly Categories          $categories,
         private readonly CfpEventsRepository $cfpEventsRepository,
-        private readonly EntityManagerInterface $entityManager,
         private readonly ProgressBar $progressBar
     ) {
         parent::__construct();
@@ -78,10 +76,16 @@ class UploadDataFromCfpWikiCommand extends Command
                 $cfpEvents->setFullName($conference[2]);
                 $cfpEvents->setLocation($conference[4]);
                 $cfpEvents->setSubmitDate($conference[5]);
-                $cfpEvents->setSubmitDateFormat(DateTimeImmutable::createFromFormat("M d, Y", $conference[5]));
+                if ($conference[5]) {
+                    $matches = [];
+                    preg_match( '/(\w{3} \d{1,2}, \d{4})/', $conference[5], $matches);
+                    if (!empty($matches)) {
+                        $cfpEvents->setSubmitDateFormat(DateTimeImmutable::createFromFormat("M d, Y", $matches[0]));
+                    }
+                }
                 if ($conference[1]) {
                     $matches = [];
-                    preg_match("~".$conference[1]."~", '/(\d{4})/', $matches);
+                    preg_match( '/(\d{4})/', $conference[1], $matches);
                     if (!empty($matches)) {
                         $cfpEvents->setYear($matches[0]);
                     }
@@ -89,7 +93,7 @@ class UploadDataFromCfpWikiCommand extends Command
 
                 if ($conference[3]) {
                     $matches = [];
-                    preg_match_all("~".$conference[3]."~", '/(\w{3} \d{1,2}, \d{4})/', $matches);
+                    preg_match_all( '/(\w{3} \d{1,2}, \d{4})/', $conference[3], $matches);
                     if (!empty($matches[0])) {
                         $cfpEvents->setBeginDate($matches[0][0]);
                         $cfpEvents->setBeginDateFormat(DateTimeImmutable::createFromFormat("M d, Y", $matches[0][0]));
@@ -103,7 +107,6 @@ class UploadDataFromCfpWikiCommand extends Command
 
             $this->progressBar->advance();
         }
-
         return Command::SUCCESS;
     }
 

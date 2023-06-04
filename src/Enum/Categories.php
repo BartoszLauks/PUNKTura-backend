@@ -3,6 +3,7 @@
 namespace App\Enum;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Categories
 {
@@ -608,8 +609,8 @@ class Categories
     public function getURL(string $type): string
     {
         return match ($type) {
-            self::COMPUTER_SCIENCE => "http://www.wikicfp.com/cfp/call?conference=environmental engineering",
-            self::ENVIRONMENTAL_ENGINEERING => "http://www.wikicfp.com/cfp/call?conference=computer science",
+            self::COMPUTER_SCIENCE => "http://www.wikicfp.com/cfp/call?conference=computer science",
+            self::ENVIRONMENTAL_ENGINEERING => "http://www.wikicfp.com/cfp/call?conference=environmental engineering",
             self::THEORETICAL_COMPUTER_SCIENCE => "http://www.wikicfp.com/cfp/call?conference=theoretical computer science",
             self::ARTIFICIAL_INTELLIGENCE => "http://www.wikicfp.com/cfp/call?conference=artificial intelligence",
             self::APPLICATIONS => "http://www.wikicfp.com/cfp/call?conference=applications",
@@ -904,7 +905,7 @@ class Categories
             self::AI => "http://www.wikicfp.com/cfp/call?conference=applied science",
             self::LIFE_SCIENCES => "http://www.wikicfp.com/cfp/call?conference=AI",
             self::IT => "http://www.wikicfp.com/cfp/call?conference=life sciences",
-            default => throw new \HttpException("Match error", Response::HTTP_BAD_REQUEST)
+            default => throw new HttpException(Response::HTTP_BAD_REQUEST, "Match error")
         };
     }
 }
