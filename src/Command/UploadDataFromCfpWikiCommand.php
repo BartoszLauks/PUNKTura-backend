@@ -102,11 +102,12 @@ class UploadDataFromCfpWikiCommand extends Command
                     }
                 }
                 $this->cfpEventsRepository->save($cfpEvents, false);
+                $this->progressBar->advance();
             }
             $this->cfpEventsRepository->flush();
 
-            $this->progressBar->advance();
         }
+
         return Command::SUCCESS;
     }
 

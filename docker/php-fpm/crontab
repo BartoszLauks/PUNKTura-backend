@@ -1,0 +1,1 @@
+0 8 * * * php /app/bin/console app:uploadNewDataFromCfpWikiCommand >> /var/log/schedule.log 2>&1
