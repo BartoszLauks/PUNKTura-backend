@@ -64,6 +64,15 @@ class CfpEvents
     #[ORM\Column( nullable: true)]
     private ?\DateTimeImmutable $finishDateFormat = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $point = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $clearFullName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $clearHandle = null;
+
 
     public function getId(): ?int
     {
@@ -270,6 +279,42 @@ class CfpEvents
         if ($this->getCreatedAt() === null) {
             $this->setCreatedAt(new \DateTimeImmutable('now'));
         }
+    }
+
+    public function getPoint(): ?int
+    {
+        return $this->point;
+    }
+
+    public function setPoint(?int $point): self
+    {
+        $this->point = $point;
+
+        return $this;
+    }
+
+    public function getClearFullName(): ?string
+    {
+        return $this->clearFullName;
+    }
+
+    public function setClearFullName(?string $clearFullName): self
+    {
+        $this->clearFullName = $clearFullName;
+
+        return $this;
+    }
+
+    public function getClearHandle(): ?string
+    {
+        return $this->clearHandle;
+    }
+
+    public function setClearHandle(?string $clearHandle): self
+    {
+        $this->clearHandle = $clearHandle;
+
+        return $this;
     }
 }
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CfpEvents;
+use App\Entity\MeinEvents;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -42,5 +43,16 @@ class CfpEventsRepository extends ServiceEntityRepository
     public function flush(): void
     {
         $this->getEntityManager()->flush();
+    }
+
+    public function findEvents(MeinEvents $event)
+    {
+        return $this->createQueryBuilder('cfp')
+            ->where(':cfpFullName LIKE :MeinFullName')
+            ->setParameter('MeinFullName', strtolower($event->getFullName()))
+            ->setParameter('cfpFullName', '%' . 'LOWER(cfp.fullName)' . '%')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }
