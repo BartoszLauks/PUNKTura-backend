@@ -31,16 +31,27 @@ class SearchEventSAndGivePointsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $range = 0;
-        $cfpEvents = $this->cfpEventsRepository->findAll();
-        $this->progressBar->initialize($output, count($cfpEvents));
-        foreach ($cfpEvents as $event) {
-            $result = $this->meinEventsRepository->findEvents($event);
+        $MEINEvents = $this->meinEventsRepository->findAll();
+        $this->progressBar->initialize($output, count($MEINEvents));
+        foreach ($MEINEvents as $event) {
+
+            $result = $this->cfpEventsRepository->findEvents($event);
             if (!empty($result)) {
-                dd($result);
+                foreach ($result as $conference) {
+                    $range++;
+                    $conference->setPoint($event->getPoint());
+                    $this->cfpEventsRepository->save($conference, false);
+                }
+            }
+
+            if ($range >= 100) {
+                $this->cfpEventsRepository->flush();
+                $range = 0;
             }
 
             $this->progressBar->advance();
         }
+        $this->cfpEventsRepository->flush();
 
         return Command::SUCCESS;
     }
