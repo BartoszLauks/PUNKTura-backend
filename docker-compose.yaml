@@ -28,5 +28,12 @@ services:
     depends_on:
       - punktura-backend-php
 
+  punktura-backend-rabbitmq:
+    image: rabbitmq:3-management
+#    volumes:
+#      - .:/app:cached
+    depends_on:
+      - punktura-backend-nginx
+
 volumes:
   punktura-backend_db_data:

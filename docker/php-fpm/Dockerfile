@@ -17,7 +17,13 @@ RUN chmod 0777 /var/log/schedule.log
 
 ADD crontab /etc/crontabs/root
 
-RUN docker-php-ext-install pdo_mysql mysqli zip
+RUN apk add --no-cache rabbitmq-c-dev && \
+    mkdir -p /usr/src/php/ext/amqp && \
+    curl -fsSL https://pecl.php.net/get/amqp | tar xvz -C "/usr/src/php/ext/amqp" --strip 1
+
+RUN docker-php-ext-install pdo_mysql mysqli zip amqp
+
+
 
 RUN adduser -D -u 1000 docker && echo "docker:docker" | chpasswd
 

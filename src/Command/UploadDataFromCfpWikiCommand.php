@@ -39,11 +39,13 @@ class UploadDataFromCfpWikiCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+
         $client = HttpClient::create();
         $categories = Categories::availableValue();
         $this->progressBar->initialize($output, count($categories));
         foreach ($categories as $category) {
             $link = $this->categories->getURL($category);
+            $data = [];
             for ($i = 1; $i <= 2; $i++) {
                 $response = $client->request('GET', $link.self::PAGE.$i);
                 self::simulateHumanDivision();

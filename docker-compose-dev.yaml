@@ -12,8 +12,15 @@ services:
       APP_ENV: dev
       APP_VERSION: dev
       DATABASE_URL: mysql://root:@punktura-backend-mysql:3306/punktura-backend_dev
+      MESSENGER_TRANSPORT_DSN: amqp://guest:guest@punktura-backend-rabbitmq-dev:5672/%2f/messages
 
   punktura-backend-nginx:
     container_name: punktura-backend-nginx-dev
     ports:
       - '8083:80'
+
+  punktura-backend-rabbitmq:
+    container_name: punktura-backend-rabbitmq-dev
+    ports:
+      - '5672:5672'
+      - '15672:15672'
