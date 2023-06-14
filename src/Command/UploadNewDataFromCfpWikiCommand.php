@@ -2,12 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\CfpEvents;
-use App\Enum\Categories;
 use App\Message\Conferences;
-use App\ProgressBar\ProgressBar;
-use App\Repository\CfpEventsRepository;
-use DateTimeImmutable;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,9 +22,6 @@ class UploadNewDataFromCfpWikiCommand extends Command
     const HOME = 'http://www.wikicfp.com/cfp/home';
 
     public function __construct(
-        private readonly Categories          $categories,
-        private readonly CfpEventsRepository $cfpEventsRepository,
-        private readonly ProgressBar $progressBar,
         private readonly MessageBusInterface $messageBus
     ) {
         parent::__construct();
