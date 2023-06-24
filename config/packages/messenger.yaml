@@ -5,13 +5,18 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            ## async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
+            #sqs : 'sqs://%env(SQS_ACCESS_KEY_ID)%:%env(SQS_SECRET_ACCESS_KEY)%@default?region=%env(SQS_REGION)%'
+            #sqs : 'https://sqs.eu-central-1.amazonaws.com/016751366678/tests?access_key=AKIAQHZTVSILLR274DHI&secret_key=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'
+            sqs : 'https://sqs.%env(SQS_REGION)%.amazonaws.com/%env(SQS_ACCESS_KEY_ID)%/tests?access_key=%env(SQS_ACCESS_KEY)%&secret_key=%env(SQS_SECRET_ACCESS_KEY)%'
+            #sqs : 'sqs://%env(SQS_ACCESS_KEY_ID)%@default?region=%env(SQS_REGION)%'
 
         routing:
             # Route your messages to the transports
-            'App\Message\Conferences': async
+            ## 'App\Message\Conferences': async
+            'App\Message\Conferences': sqs
 
 # when@test:
 #    framework:
