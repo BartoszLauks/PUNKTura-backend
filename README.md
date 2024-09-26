@@ -1,6 +1,15 @@
-# Projekt na zaliczenie
+# Aplikacja scraper lub agregator danych z elementami automatycznej analizy
 
-### Projekt zespołowy
+- Zbieranie danych z dwóch źródeł (strona z konferencjami naukowymi i strona rządowa).
+- Porównywanie tych danych w celu znalezienia konferencji, które są wartościowe w kontekście przyznawania punktów.
+- Może również wykorzystywać elementy automatyzacji i filtracji danych, aby pomóc użytkownikowi w wyszukiwaniu odpowiednich konferencji.
+
+## Projekt na potrzeby uczelni.
+
+## Opis
+
+Aplikacja wyszukuje konferencje naukowe za które Ministerstwo Nauki i Szkolnictwa Wyższego przydziela punkty pracownikom uczelni.
+
 
 ### Pierwsza instalacja
 
